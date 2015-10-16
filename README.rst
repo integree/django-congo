@@ -1,11 +1,11 @@
 Congo
 =====
 
-.. image:: https://img.shields.io/pypi/l/django-congo.svg
-
 .. image:: https://img.shields.io/pypi/pyversions/django-congo.svg
 
 .. image:: https://img.shields.io/badge/django-1.7%20or%20newer-green.svg
+
+.. image:: https://img.shields.io/pypi/l/django-congo.svg
 
 .. image:: https://img.shields.io/pypi/dm/django-congo.svg
 
@@ -24,7 +24,7 @@ django-congo requires Python 2.7 or Python 3.3 or newer and Django 1.7 or newer.
 Installation
 ************
 
-To install django-congo, run the following command inside this directory:
+To install django-congo, run the following command inside this directory::
 
     python setup.py install
 
