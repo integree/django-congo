@@ -1,7 +1,5 @@
-# Congo
-
-.. image:: https://travis-ci.org/django-congo/django-congo.svg?branch=master
-    :target: https://travis-ci.org/django-congo/django-congo
+Congo
+=====
 
 .. image:: https://img.shields.io/pypi/l/django-congo.svg
 
@@ -16,11 +14,15 @@ Congo is Python package for use with Django. It contains some useful tool for fa
 
 The code is hosted on `Github <https://github.com/integree/django-congo>`_. 
 
-## Requirements
+************
+Requirements
+************
 
 django-congo requires Python 2.7 or Python 3.3 or newer and Django 1.7 or newer.
 
-## Installation
+************
+Installation
+************
 
 To install django-congo, run the following command inside this directory:
 
