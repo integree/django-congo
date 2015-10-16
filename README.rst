@@ -14,15 +14,13 @@ Congo is Python package for use with Django. It contains some useful tool for fa
 
 The code is hosted on `Github <https://github.com/integree/django-congo>`_. 
 
-************
 Requirements
-************
+------------
 
 django-congo requires Python 2.7 or Python 3.3 or newer and Django 1.7 or newer.
 
-************
 Installation
-************
+------------
 
 To install django-congo, run the following command inside this directory::
 
@@ -40,3 +38,13 @@ Or if you're using **pip**::
 Or if you'd prefer you can simply place the included "congo" directory 
 somewhere on your python path, or symlink to it from somewhere on your Python 
 path.
+
+Credits
+-------
+
+Shout out to `@jezdez <https://github.com/jezdez>`_ for the awesome ``django-appconf`` — used by this project to handle default configurations.
+
+Development Lead
+----------------
+
+The project implemented by `Integree Bussines Solutions <http://integree.pl>`_
