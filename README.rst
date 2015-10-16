@@ -2,15 +2,21 @@ Congo
 =====
 
 .. image:: https://img.shields.io/pypi/pyversions/django-congo.svg
+    :target: https://pypi.python.org/pypi/django-congo/
+
+.. image:: http://img.shields.io/pypi/v/django-congo.svg
+    :target: https://pypi.python.org/pypi/django-congo/
 
 .. image:: https://img.shields.io/badge/django-1.7%20or%20newer-green.svg
+    :target: https://pypi.python.org/pypi/django-congo/
 
 .. image:: https://img.shields.io/pypi/l/django-congo.svg
+    :target: https://pypi.python.org/pypi/django-congo/
 
 .. image:: https://img.shields.io/pypi/dm/django-congo.svg
+    :target: https://pypi.python.org/pypi/django-congo/
 
-
-Congo is Python package for use with Django. It contains some useful tool for faster and more efficient Django application development.
+Congo is an experimental package for use with Django. It contains many useful tools for faster and more efficient Django application developing.
 
 The code is hosted on `Github <https://github.com/integree/django-congo>`_. 
 
