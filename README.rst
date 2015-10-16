@@ -44,4 +44,4 @@ Credits
 
 Thanks to `@jezdez <https://github.com/jezdez>`_ for the ``django-appconf`` — used by this project to handle default configurations.
 
-The project implemented by `Integree Bussines Solutions <http://integree.pl>`_
+The project implemented by `Integree Bussines Solutions <http://integree.pl>`_ from Warsaw, Poland
