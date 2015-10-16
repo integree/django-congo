@@ -42,9 +42,6 @@ path.
 Credits
 -------
 
-Shout out to `@jezdez <https://github.com/jezdez>`_ for the awesome ``django-appconf`` — used by this project to handle default configurations.
-
-Development Lead
-----------------
+Thanks to `@jezdez <https://github.com/jezdez>`_ for the ``django-appconf`` — used by this project to handle default configurations.
 
 The project implemented by `Integree Bussines Solutions <http://integree.pl>`_
