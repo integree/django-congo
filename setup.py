@@ -11,8 +11,8 @@ setup(name = 'django-congo',
     long_description = readme(),
     author = 'Integree Bussines Solutions',
     author_email = 'dev@integree.pl',
-    url = 'http://www.integree.pl/',
-    keywords = 'congo django utils integree',
+    url = 'https://github.com/integree/django-congo',
+    keywords = 'django-congo congo django utils integree',
     packages = find_packages(),
     include_package_data = True,
     license = 'MIT License',
@@ -32,6 +32,6 @@ setup(name = 'django-congo',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ],
     install_requires = [
-        'django<1.9',
+        'django-appconf',
     ],
     zip_safe = False)
