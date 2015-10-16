@@ -16,7 +16,7 @@ Congo
 .. image:: https://img.shields.io/pypi/dm/django-congo.svg
     :target: https://pypi.python.org/pypi/django-congo/
 
-Congo is an experimental package for use with Django. It contains many useful tools for faster and more efficient Django application developing.
+Congo is an **experimental** package for use with Django. It contains many useful tools for faster and more efficient Django application developing.
 
 The code is hosted on `Github <https://github.com/integree/django-congo>`_. 
 
