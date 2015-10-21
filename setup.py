@@ -34,5 +34,6 @@ setup(name = 'django-congo',
     ],
     install_requires = [
         'django-appconf',
+        'py-moneyed',
     ],
     zip_safe = False)

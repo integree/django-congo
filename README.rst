@@ -29,6 +29,10 @@ Installation
 To install django-congo, run the following command inside this directory::
 
     python setup.py install
+    
+You can also install the package with a symlink, so that changes to the source files will be immediately available to other users of the package on your system::
+
+    python setup.py develop
 
 If you have the Python **easy_install** utility available, you can also type 
 the following to download and install in one step::

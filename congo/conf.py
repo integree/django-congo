@@ -1,5 +1,7 @@
-from django.conf import settings
+from django.conf import settings as _settings
 from appconf import AppConf
 
+settings = _settings
+
 class CongoAppConf(AppConf):
-    CUSTOM_VAR = "This is custom VAR"
+    TEMPLATE_CACHE_BACKEND = None
