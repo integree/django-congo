@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from congo.conf import settings
-from django.core.urlresolvers import get_resolver, LocaleRegexURLResolver, \
-    resolve, reverse, Resolver404, NoReverseMatch
+from django.core.urlresolvers import get_resolver, LocaleRegexURLResolver, resolve, reverse, Resolver404, NoReverseMatch
 from django.http.response import HttpResponseRedirect
 from django.utils import translation
 from django.utils.http import is_safe_url
@@ -17,8 +16,13 @@ class LanguageMiddleware(object):
                 break
 
     def process_request(self, request):
-        check_path = self.is_language_prefix_patterns_used()
-        language = translation.get_language_from_request(request, check_path = check_path)
+        is_admin_backend = getattr(request, 'is_admin_backend', False)
+
+        if is_admin_backend:
+            language = settings.CONGO_ADMIN_LANGUAGE_CODE
+        else:
+            check_path = self.is_language_prefix_patterns_used()
+            language = translation.get_language_from_request(request, check_path = check_path)
         translation.activate(language)
         request.LANGUAGE_CODE = translation.get_language()
 

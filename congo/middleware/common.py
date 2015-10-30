@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
-from django.conf import settings
-from django.contrib import messages
-from django.http.response import HttpResponseRedirect
-from django.utils.encoding import force_text
+from congo.conf import settings
 import decimal
-import logging
-import re
+
+class CommonMiddleware(object):
+    def process_request(self, request):
+        admin_path = settings.CONGO_ADMIN_PATH
+        if request.path.startswith(admin_path):
+            request.is_admin_backend = True
+        else:
+            request.is_admin_backend = False
 
 class DecimalRoundingMiddleware(object):
     def process_request(self, request):
