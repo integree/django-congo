@@ -1,8 +1,8 @@
-from django import template
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.contrib.contenttypes.models import ContentType
+from congo.templatetags import Library
 
-register = template.Library()
+register = Library()
 
 @register.filter
 def admin_change_url(value):

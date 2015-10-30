@@ -1,12 +1,66 @@
 # -*- coding: utf-8 -*-
-from congo.cache.utils import template_cache_backend
 from congo.conf import settings
 from decimal import Decimal
 from django.core.cache import caches
-from django.template.base import Library, TemplateSyntaxError, Node
+from django.template.base import TemplateSyntaxError, Node
+from django.utils.safestring import mark_safe
+from django.utils.translation import ugettext_lazy as _
 from random import random
+from congo.templatetags import Library
 
 register = Library()
+
+@register.filter(is_safe = True)
+def or_blank(value, use_html = True):
+    if value:
+        return value
+    else:
+        text = _("(Blank)")
+        html = u"""<span class="text-muted">%s</span>""" % text
+        blank = html if bool(use_html) else text
+        return mark_safe(blank)
+
+@register.filter
+def if_empty(value, arg = ""):
+    return value or arg
+
+@register.smart_tag
+def smart_tag_test(*args, **kwargs):
+    result = ""
+    if not args and not kwargs:
+        result += "<h4>No args and kwargs</h4><p>...no args, no kwargs :(</p>"
+    if args:
+        result += "<h4>Args</h4>"
+        result += "<ul>"
+        for a in args:
+            result += "<li>%s</li>" % a
+        result += "</ul>"
+    if kwargs:
+        result += "<h4>Kwargs</h4>"
+        result += "<ul>"
+        for k, v in kwargs.items():
+            result += "<li>%s: %s</li>" % (k, v)
+        result += "</ul>"
+    return result
+
+@register.smart_tag(takes_context = True)
+def smart_tag_context_test(context, *args, **kwargs):
+    result = "<h4>User: %s</h4>" % context['request'].user
+    if not args and not kwargs:
+        result += "<h4>No args and kwargs</h4><p>...no args, no kwargs :(</p>"
+    if args:
+        result += "<h4>Args</h4>"
+        result += "<ul>"
+        for a in args:
+            result += "<li>%s</li>" % a
+        result += "</ul>"
+    if kwargs:
+        result += "<h4>Kwargs</h4>"
+        result += "<ul>"
+        for k, v in kwargs.items():
+            result += "<li>%s: %s</li>" % (k, v)
+        result += "</ul>"
+    return result
 
 ## messages
 #
@@ -131,7 +185,7 @@ class CacheNode(Node):
         except (ValueError, TypeError):
             raise TemplateSyntaxError('"cache" tag got a non-integer timeout value: %r' % self.expire_time)
 
-        cache_backend = template_cache_backend()
+        cache_backend = settings.CONGO_TEMPLATE_CACHE_BACKEND
         cache = caches[cache_backend]
         version = 'template'
         value = cache.get(self.cache_key, version = version)
