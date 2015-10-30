@@ -6,6 +6,11 @@ register = Library()
 
 @register.filter
 def admin_change_url(value):
+#    {% url 'admin:index' %}
+#    {% url 'admin:polls_choice_add' %}
+#    {% url 'admin:polls_choice_change' choice.id %}
+#    {% url 'admin:polls_choice_changelist' %}
+
     url = ""
     try:
         url = reverse('admin:%s_%s_change' % (value._meta.app_label, value._meta.module_name), args = (value.id,))

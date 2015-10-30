@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from congo.templatetags import Library
-from congo.utils import number_format, get_money_locale
 from decimal import Decimal, InvalidOperation
 from django.utils.numberformat import format
 from moneyed import Money, get_currency
-from moneyed.localization import format_money, _FORMATTER
+from moneyed.localization import format_money
+from congo.utils.formats import number_format
+from congo.utils.l10n import get_money_locale
 
 register = Library()
 

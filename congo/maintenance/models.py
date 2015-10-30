@@ -1,12 +1,17 @@
 # -*- coding: utf-8 -*-
 from .managers import SiteManager
 from congo.conf import settings
+from congo.maintenance import SITE_CACHE, CONFIG_CACHE
 from congo.utils.managers import ActiveManager
 from congo.utils.text import slugify
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
-from congo.maintenance import SITE_CACHE, CONFIG_CACHE
+import importlib
+import os
+import re
+from django.core.exceptions import ImproperlyConfigured
 
 @python_2_unicode_compatible
 class AbstractConfig(models.Model):
@@ -176,6 +181,76 @@ class AbstractLog(models.Model):
             css_class = ''
         label = cls.get_level_name(level)
         return """<span class="%s">%s</span>""" % (css_class, label)
+
+def get_job_choice():
+    job_choice_path = settings.CONGO_JOB_CHOICE_PATH
+    if job_choice_path:
+        return [(file, file) for file in os.listdir(job_choice_path) if re.match("^(?!_)([a-z_]+).py$", file, re.IGNORECASE)]
+    return []
+
+class AbstractCron(models.Model):
+    JOB_CHOICE = get_job_choice()
+
+    EVERY_MINUTE = 10
+    EVERY_HOUR = 20
+    EVERY_DAY = 30
+    EVERY_WEEK = 40
+    EVERY_MONTH = 50
+    WORKING_HOURS = 60
+    AFTER_HOURS = 70
+    MORNINGS_EVENINGS = 80
+
+    FREQUENCY_CHOICE = (
+        (EVERY_MINUTE, _("Every minute")), # eg. every min
+        (EVERY_HOUR, _("Every hour")), # eg. 5 past hour
+        (EVERY_DAY, _("Every day")), # eg. 10 past midnight
+        (EVERY_WEEK, _("Every week")), # eg. 15 past midnight on mon
+        (EVERY_MONTH, _("Every month")), # eg. 20 past midnight on 1-st month day
+        (WORKING_HOURS, _("During working hours")), # eg. every 5 min from 8 am to 7 pm mon to sat
+        (AFTER_HOURS, _("After hours")), # eg. every 3 min from 5 pm to 9 pm mon to sat
+        (MORNINGS_EVENINGS, _("Mornings and evenings")), # eg. 7:55 am and 7:55 pm
+    )
+
+    job = models.CharField(_("Job"), max_length = 255, unique = True, choices = JOB_CHOICE)
+    frequency = models.IntegerField(_("Frequency"), choices = FREQUENCY_CHOICE)
+    is_active = models.BooleanField(_("Is active"), default = False)
+
+    class Meta:
+        verbose_name = _("CRON job")
+        verbose_name_plural = _("CRON jobs")
+        ordering = ('job',)
+        permissions = (
+            ("run_job", "Can run CRON job"),
+        )
+        abstract = True
+
+    def __unicode__(self):
+        return self.job
+
+    @property
+    def name(self):
+        return self.job[:-3]
+
+    @classmethod
+    def get_frequency_label(cls, frequency):
+        frequency_dict = dict(cls.FREQUENCY_CHOICE)
+        try:
+            return frequency_dict[frequency]
+        except KeyError:
+            return None
+
+    def run_job(self, user):
+        jobs_module = settings.CONGO_JOBS_MODULE
+        if not jobs_module:
+            raise ImproperlyConfigured("In order to use Cron, configure settings.CONGO_JOBS_MODULE first.")
+
+        module_path = "%s.%s" % (jobs_module, self.name)
+        module = importlib.import_module(module_path)
+        job = module.Job()
+        return job.run(user)
+
+    def get_absolute_url(self):
+        return reverse('congo_maintenance_cron', kwargs = {'cron_id': self.id})
 
 class AbstractUrlRedirect(models.Model):
 #    sites = models.ManyToManyField(Site, blank = True, null = True, verbose_name = u"Strony")

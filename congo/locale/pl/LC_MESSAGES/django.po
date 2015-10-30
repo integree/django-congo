@@ -1,0 +1,197 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-30 18:00+0100\n"
+"PO-Revision-Date: 2015-10-30 17:58+0100\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: .\congo\maintenance\admin.py:34 .\congo\maintenance\filters.py:9
+#: .\congo\maintenance\models.py:133
+msgid "Level"
+msgstr "Poziom"
+
+#: .\congo\maintenance\admin.py:45 .\congo\maintenance\models.py:18
+msgid "Name"
+msgstr "Nazwa"
+
+#: .\congo\maintenance\admin.py:49 .\congo\maintenance\admin.py:50
+msgid "Run now"
+msgstr "Uruchom"
+
+#: .\congo\maintenance\jobs\__init__.py:25
+msgid "The _run() method should take the one user argument (User), perform a task and return result (dict or SortedDict)."
+msgstr "Metoda _run() przyjmuje argument user (User), wykonuje zadanie i zwraca wynik (dict or SortedDict)."
+
+#: .\congo\maintenance\models.py:19
+msgid "Value"
+msgstr "Wartość"
+
+#: .\congo\maintenance\models.py:20 .\congo\maintenance\models.py:134
+msgid "Description"
+msgstr "Opis"
+
+#: .\congo\maintenance\models.py:21
+msgid "Use cache"
+msgstr "Cachuj"
+
+#: .\congo\maintenance\models.py:22
+msgid "Load at startup"
+msgstr "Uruchamiaj przy starcie"
+
+#: .\congo\maintenance\models.py:25
+msgid "System config"
+msgstr "Parametr systemu"
+
+#: .\congo\maintenance\models.py:26
+msgid "System configs"
+msgstr "Parametry systemu"
+
+#: .\congo\maintenance\models.py:84
+msgid "Domain"
+msgstr "Domena"
+
+#: .\congo\maintenance\models.py:85 .\congo\utils\admin.py:74
+msgid "Language"
+msgstr "Język"
+
+#: .\congo\maintenance\models.py:86 .\congo\maintenance\models.py:216
+msgid "Is active"
+msgstr "Aktywny"
+
+#: .\congo\maintenance\models.py:92
+msgid "Site"
+msgstr "Strona"
+
+#: .\congo\maintenance\models.py:93
+msgid "Sites"
+msgstr "Strony"
+
+#: .\congo\maintenance\models.py:132
+msgid "Source"
+msgstr "Źródło"
+
+#: .\congo\maintenance\models.py:135 .\congo\utils\admin.py:59
+msgid "User"
+msgstr "Użytkownik"
+
+#: .\congo\maintenance\models.py:136
+msgid "Date"
+msgstr "Data"
+
+#: .\congo\maintenance\models.py:137
+msgid "Extra details"
+msgstr "Szczegóły"
+
+#: .\congo\maintenance\models.py:140
+msgid "System log"
+msgstr "Log systemowy"
+
+#: .\congo\maintenance\models.py:141
+msgid "System logs"
+msgstr "Logi systemowe"
+
+#: .\congo\maintenance\models.py:204
+msgid "Every minute"
+msgstr "Co minutę"
+
+#: .\congo\maintenance\models.py:205
+msgid "Every hour"
+msgstr "Co godzinę"
+
+#: .\congo\maintenance\models.py:206
+msgid "Every day"
+msgstr "Co dzień"
+
+#: .\congo\maintenance\models.py:207
+msgid "Every week"
+msgstr "Co tydzień"
+
+#: .\congo\maintenance\models.py:208
+msgid "Every month"
+msgstr "Co miesiąc"
+
+#: .\congo\maintenance\models.py:209
+msgid "During working hours"
+msgstr "W godzinach pracy"
+
+#: .\congo\maintenance\models.py:210
+msgid "After hours"
+msgstr "Po godzinach"
+
+#: .\congo\maintenance\models.py:211
+msgid "Mornings and evenings"
+msgstr "Rano i wieczorem"
+
+#: .\congo\maintenance\models.py:214
+msgid "Job"
+msgstr "Zadanie"
+
+#: .\congo\maintenance\models.py:215
+msgid "Frequency"
+msgstr "Częstotliwość"
+
+#: .\congo\maintenance\models.py:219
+msgid "CRON job"
+msgstr "Zadanie CRON"
+
+#: .\congo\maintenance\models.py:220
+msgid "CRON jobs"
+msgstr "Zadania CRON"
+
+#: .\congo\maintenance\models.py:266
+msgid "Old URL"
+msgstr "Stary URL"
+
+#: .\congo\maintenance\models.py:266
+msgid "URL format: ^/old-url/$"
+msgstr "Format: ^/old-url/$"
+
+#: .\congo\maintenance\models.py:267
+msgid "New URL"
+msgstr "Nowy URL"
+
+#: .\congo\maintenance\models.py:267
+msgid "URL format: /new-url/"
+msgstr "Format: /new-url/"
+
+#: .\congo\maintenance\models.py:268
+msgid "Rewrite tail?"
+msgstr "Przepisać ogon?"
+
+#: .\congo\maintenance\models.py:268
+msgid "Should /old-url/abc/ be changet do /new-url/abc/ or just /new-url/?"
+msgstr "Czy zamienić /old-url/abc/ na /new-url/abc/ czy jedynie /new-url/?"
+
+#: .\congo\maintenance\models.py:269
+msgid "Permanent redirect?"
+msgstr "Permanentne przekierowanie?"
+
+#: .\congo\maintenance\models.py:269
+msgid "Is redirect permanent (301) or temporary (302)?"
+msgstr "Czy przekierowanie jest permanentne (301) czy tymczasowe (302)?"
+
+#: .\congo\maintenance\models.py:272
+msgid "URL redirect"
+msgstr "Przekierowanie URL"
+
+#: .\congo\maintenance\models.py:273
+msgid "URL redirects"
+msgstr "Przekierowania URL"
+
+#: .\congo\templatetags\common.py:18 .\congo\utils\admin.py:25
+msgid "(Blank)"
+msgstr "(Brak)"
+
+#: .\congo\utils\admin.py:47
+msgid "History"
+msgstr "Historia"
+
+#: .\congo\utils\admin.py:68
+msgid "User's e-mail"
+msgstr "E-mail użytkownika"
