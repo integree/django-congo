@@ -242,7 +242,7 @@ class AbstractCron(models.Model):
     def run_job(self, user):
         jobs_module = settings.CONGO_JOBS_MODULE
         if not jobs_module:
-            raise ImproperlyConfigured("In order to use Cron, configure settings.CONGO_JOBS_MODULE first.")
+            raise ImproperlyConfigured("In order to use Cron model, configure settings.CONGO_JOBS_MODULE first.")
 
         module_path = "%s.%s" % (jobs_module, self.name)
         module = importlib.import_module(module_path)

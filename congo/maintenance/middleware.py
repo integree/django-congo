@@ -11,7 +11,7 @@ class SiteMiddleware(object):
 
         model_name = settings.CONGO_SITE_MODEL
         if not model_name:
-            raise ImproperlyConfigured("In order to use SiteMiddleware, configure settings.CONGO_SITE_MODEL first.")
+            raise ImproperlyConfigured("In order to use Site model, configure settings.CONGO_SITE_MODEL first.")
         model = apps.get_model(*model_name.split('.', 1))
 
         try:
@@ -46,7 +46,7 @@ class UrlRedirectMiddleware(object):
     def process_response(self, request, response):
         model_name = settings.CONGO_URL_REDIRECT_MODEL
         if not model_name:
-            raise ImproperlyConfigured("In order to use UrlRedirectMiddleware, configure settings.CONGO_URL_REDIRECT_MODEL first.")
+            raise ImproperlyConfigured("In order to use UrlRedirect model, configure settings.CONGO_URL_REDIRECT_MODEL first.")
         model = apps.get_model(*model_name.split('.', 1))
 
         if response.status_code == 404:

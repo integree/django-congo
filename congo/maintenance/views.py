@@ -10,7 +10,7 @@ from django.apps import apps
 def cron(request, cron_id):
     model_name = settings.CONGO_CRON_MODEL
     if not model_name:
-        raise ImproperlyConfigured("In order to use Cron, configure settings.CONGO_CRON_MODEL first.")
+        raise ImproperlyConfigured("In order to use Cron model, configure settings.CONGO_CRON_MODEL first.")
     model = apps.get_model(*model_name.split('.', 1))
 
     try:

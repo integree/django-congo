@@ -12,7 +12,7 @@ class LogLevelFilter(SimpleListFilter):
     def lookups(self, request, model_admin):
         model_name = settings.CONGO_LOG_MODEL
         if not model_name:
-            raise ImproperlyConfigured("In order to use DataBaseHandler, configure settings.CONGO_LOG_MODEL first.")
+            raise ImproperlyConfigured("In order to use Log model, configure settings.CONGO_LOG_MODEL first.")
         model = apps.get_model(*model_name.split('.', 1))
 
         levels = model.objects.order_by('level').values_list('level', flat = True).distinct()

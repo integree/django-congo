@@ -8,6 +8,7 @@ from django.utils.encoding import force_text
 from django.views.debug import get_exception_reporter_filter
 import logging
 import os
+from unidecode import unidecode
 
 class BaseHandler(logging.Handler):
     def get_request_repr(self, record):
@@ -52,7 +53,7 @@ class BaseHandler(logging.Handler):
         extra_info = self.get_extra_info(record)
         request_repr = self.get_request_repr(record)
 
-        return "\n\n".join([text for text in [exc_text, extra_info, request_repr] if text]) or ""
+        return "\n\n".join([unidecode(text) for text in [exc_text, extra_info, request_repr] if text]) or ""
 
 class ConsoleHandler(BaseHandler):
     def emit(self, record):
@@ -90,7 +91,7 @@ class DataBaseHandler(BaseHandler):
     def emit(self, record):
         model_name = settings.CONGO_LOG_MODEL
         if not model_name:
-            raise ImproperlyConfigured("In order to use DataBaseHandler, configure settings.CONGO_LOG_MODEL first.")
+            raise ImproperlyConfigured("In order to use Log model, configure settings.CONGO_LOG_MODEL first.")
         model = apps.get_model(*model_name.split('.', 1))
 
         try:

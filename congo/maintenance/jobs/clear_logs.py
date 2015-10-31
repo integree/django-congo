@@ -22,7 +22,7 @@ class Job(BaseJob):
         # Log
         model_name = settings.CONGO_LOG_MODEL
         if not model_name:
-            raise ImproperlyConfigured("In order to use DataBaseHandler, configure settings.CONGO_LOG_MODEL first.")
+            raise ImproperlyConfigured("In order to use Log model, configure settings.CONGO_LOG_MODEL first.")
         model = apps.get_model(*model_name.split('.', 1))
 
         queryset = model.objects.filter(date__lte = years_ago(1))
