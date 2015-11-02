@@ -110,6 +110,7 @@ def clear_site_cache(sender, **kwargs):
 # pre_save.connect(clear_site_cache, sender = Site)
 # pre_delete.connect(clear_site_cache, sender = Site)
 
+@python_2_unicode_compatible
 class AbstractLog(models.Model):
     NOTSET = 0
     DEBUG = 10
@@ -142,7 +143,7 @@ class AbstractLog(models.Model):
         ordering = ('-id',)
         abstract = True
 
-    def __unicode__(self):
+    def __str__(self):
         return u"%s: %s" % (self.get_level_name(self.level), self.name)
 
     @classmethod
@@ -182,12 +183,98 @@ class AbstractLog(models.Model):
         label = cls.get_level_name(level)
         return """<span class="%s">%s</span>""" % (css_class, label)
 
+def get_test_choice():
+    test_choice_path = settings.CONGO_TEST_CHOICE_PATH
+    if test_choice_path:
+        return [(filename, filename) for filename in os.listdir(test_choice_path) if re.match("^(?!_)([a-z_]+).py$", filename, re.IGNORECASE)]
+    return []
+
+@python_2_unicode_compatible
+class AbstractAudit(models.Model):
+    TEST_CHOICE = get_test_choice()
+
+    DEBUG = 10
+    INFO = 20
+    WARNING = 30
+    ERROR = 40
+    CRITICAL = 50
+
+    LEVEL_CHOICE = (
+        (DEBUG, 'DEBUG'),
+        (INFO, 'INFO'),
+        (WARNING, 'WARNING'),
+        (ERROR, 'ERROR'),
+        (CRITICAL, 'CRITICAL'),
+    )
+
+    EVERY_HOUR = 20
+    EVERY_DAY = 30
+    EVERY_WEEK = 40
+    EVERY_MONTH = 50
+
+    FREQUENCY_CHOICE = (
+        (EVERY_HOUR, _("Every hour")),
+        (EVERY_DAY, _("Every day")),
+        (EVERY_WEEK, _("Every week")),
+        (EVERY_MONTH, _("Every month")),
+    )
+
+    test = models.CharField(_("Test"), max_length = 255, unique = True, choices = TEST_CHOICE)
+    level = models.IntegerField(_("Level"), default = INFO, choices = LEVEL_CHOICE)
+    frequency = models.IntegerField(_("Frequency"), choices = FREQUENCY_CHOICE)
+    result = models.NullBooleanField(_("Result"), default = None)
+    details = models.TextField(_("Extra details"), null = True, blank = True)
+    is_active = models.BooleanField(_("Is active"), default = False)
+    auditors = models.ManyToManyField(settings.AUTH_USER_MODEL, blank = True, limit_choices_to = {'is_staff': True}, related_name = 'user_audits', verbose_name = _("Auditors"))
+
+    class Meta:
+        verbose_name = _("System audit")
+        verbose_name_plural = _("System audits")
+        ordering = ('test',)
+        permissions = (
+            ("run_test", "Can run audit test"),
+        )
+        abstract = True
+
+    def __str__(self):
+        return self.name
+
+    @property
+    def name(self):
+        return self.test[:-3]
+
+    def _get_test(self):
+        tests_module = settings.CONGO_TESTS_MODULE
+        if not tests_module:
+            raise ImproperlyConfigured("In order to use Audit model, configure settings.CONGO_TESTS_MODULE first.")
+
+        if self.test:
+            module_path = "%s.%s" % (tests_module, self.name)
+            module = importlib.import_module(module_path)
+            return module.Test()
+
+        return None
+
+    def run_test(self, user):
+        test = self._get_test()
+        success, result = test.run(user)
+
+        self.result = result['result']
+        self.details = result['details']
+        self.save(update_fields = ('result', 'details'))
+
+        return success
+
+    def get_absolute_url(self):
+        return reverse('congo_maintenance_cron', kwargs = {'cron_id': self.id})
+
 def get_job_choice():
     job_choice_path = settings.CONGO_JOB_CHOICE_PATH
     if job_choice_path:
-        return [(file, file) for file in os.listdir(job_choice_path) if re.match("^(?!_)([a-z_]+).py$", file, re.IGNORECASE)]
+        return [(filename, filename) for filename in os.listdir(job_choice_path) if re.match("^(?!_)([a-z_]+).py$", filename, re.IGNORECASE)]
     return []
 
+@python_2_unicode_compatible
 class AbstractCron(models.Model):
     JOB_CHOICE = get_job_choice()
 
@@ -224,34 +311,33 @@ class AbstractCron(models.Model):
         )
         abstract = True
 
-    def __unicode__(self):
-        return self.job
+    def __str__(self):
+        return self.name
 
     @property
     def name(self):
         return self.job[:-3]
 
-    @classmethod
-    def get_frequency_label(cls, frequency):
-        frequency_dict = dict(cls.FREQUENCY_CHOICE)
-        try:
-            return frequency_dict[frequency]
-        except KeyError:
-            return None
-
-    def run_job(self, user):
+    def _get_job(self):
         jobs_module = settings.CONGO_JOBS_MODULE
         if not jobs_module:
-            raise ImproperlyConfigured("In order to use Cron model, configure settings.CONGO_JOBS_MODULE first.")
+            raise ImproperlyConfigured("In order to use Audit model, configure settings.CONGO_JOBS_MODULE first.")
 
-        module_path = "%s.%s" % (jobs_module, self.name)
-        module = importlib.import_module(module_path)
-        job = module.Job()
+        if self.job:
+            module_path = "%s.%s" % (jobs_module, self.name)
+            module = importlib.import_module(module_path)
+            return module.Job()
+
+        return None
+
+    def run_job(self, user):
+        job = self._get_job()
         return job.run(user)
 
     def get_absolute_url(self):
         return reverse('congo_maintenance_cron', kwargs = {'cron_id': self.id})
 
+@python_2_unicode_compatible
 class AbstractUrlRedirect(models.Model):
 #    sites = models.ManyToManyField(Site, blank = True, null = True, verbose_name = u"Strony")
     old_url = models.CharField(_("Old URL"), max_length = 255, db_index = True, help_text = _("URL format: ^/old-url/$"))
@@ -265,7 +351,7 @@ class AbstractUrlRedirect(models.Model):
         ordering = ('old_url',)
         abstract = True
 
-    def __unicode__(self):
+    def __str__(self):
         return u"%s › %s" % (self.old_url, self.redirect_url)
 
     @classmethod

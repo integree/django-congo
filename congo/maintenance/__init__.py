@@ -1,2 +1,2 @@
-CONFIG_CACHE = {}
 SITE_CACHE = {}
+CONFIG_CACHE = {}
