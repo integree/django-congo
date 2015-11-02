@@ -1,10 +1,10 @@
-from django.core.management.base import BaseCommand, CommandError
-from django.core.exceptions import ImproperlyConfigured
 from django.apps import apps
+from django.core.exceptions import ImproperlyConfigured
+from django.core.management.base import BaseCommand, CommandError
 import logging
 
 class Command(BaseCommand):
-    help = 'Runs CRON jobs for given frequency'
+    help = 'Runs audit tests for given frequency'
     can_import_settings = True
 
     def add_arguments(self, parser):
@@ -13,9 +13,9 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         from congo.conf import settings
 
-        model_name = settings.CONGO_CRON_MODEL
+        model_name = settings.CONGO_AUDIT_MODEL
         if not model_name:
-            raise ImproperlyConfigured("In order to use Cron model, configure settings.CONGO_CRON_MODEL first.")
+            raise ImproperlyConfigured("In order to use Audit model, configure settings.CONGO_AUDIT_MODEL first.")
         model = apps.get_model(*model_name.split('.', 1))
 
         frequency = options['frequency'][0]
@@ -25,16 +25,16 @@ class Command(BaseCommand):
         except KeyError:
             raise CommandError('Incorrect frequency argument. Valid values are: %s' % ', '.join(frequency_dict.keys()))
 
-        message = "CRON jobs for frequency %s (%s) invoked" % (frequency, frequency_label)
+        message = "Audit tests for frequency %s (%s) invoked" % (frequency, frequency_label)
         extra = {}
 
-        logger = logging.getLogger('system.cron')
+        logger = logging.getLogger('system.audit')
         logger.debug(message, extra = extra)
 
         i = j = 0
 
-        for cron in model.objects.filter(frequency = frequency, is_active = True):
-            if cron.run_job(None):
+        for audit in model.objects.filter(frequency = frequency, is_active = True):
+            if audit.run_test(None):
                 i += 1
             j += 1
 

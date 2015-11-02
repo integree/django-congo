@@ -13,7 +13,7 @@ def admin_change_url(value):
 
     url = ""
     try:
-        url = reverse('admin:%s_%s_change' % (value._meta.app_label, value._meta.module_name), args = (value.id,))
+        url = reverse('admin:%s_%s_change' % (value._meta.app_label, value._meta.model_name), args = (value.id,))
     except (NoReverseMatch, AttributeError):
         pass
     return url

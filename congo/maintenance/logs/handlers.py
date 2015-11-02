@@ -22,12 +22,12 @@ class BaseHandler(logging.Handler):
 
     def get_user(self, record, default = 'AnonymousUser'):
         if hasattr(record, 'user'):
-            user = unicode(record.user)
+            user = record.user
         elif hasattr(record, 'request') and hasattr(record.request, 'user'):
-            user = unicode(record.request.user)
+            user = record.request.user
         else:
             user = None
-        return user or default
+        return unicode(user) if user else unicode(default)
 
     def get_extra_info(self, record):
         if hasattr(record, 'extra_info'):

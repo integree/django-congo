@@ -6,7 +6,7 @@ from django.utils import timezone
 class Job(BaseJob):
     def __init__(self):
         super(Job, self).__init__()
-        self.description = "Clear old sessions"
+        self.description = "Removing session objects that have expired"
 
     def _run(self, user, *args, **kwargs):
         result = {}

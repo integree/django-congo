@@ -16,6 +16,12 @@ class CongoAppConf(AppConf):
     LOG_ROOT = os.path.join(settings.BASE_DIR, 'logs')
     COMMON_ERRORS_IGNORE_LIST = []
 
+    # audit
+
+    AUDIT_MODEL = None # eg. maintenance.Audit
+    TEST_MODULE = None # eg. maintenance.tests
+    TEST_CHOICE_PATH = None # eg. os.path.join(BASE_DIR, *JOBS_MODULE.split('.'))
+
     # cron
 
     CRON_MODEL = None # eg. maintenance.Cron

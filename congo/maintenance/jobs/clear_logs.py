@@ -9,7 +9,7 @@ from django.core.exceptions import ImproperlyConfigured
 class Job(BaseJob):
     def __init__(self):
         super(Job, self).__init__()
-        self.description = "Clear old admin and system logs"
+        self.description = "Removing admin and system logs older than 1 year"
 
     def _run(self, user, *args, **kwargs):
         result = {}

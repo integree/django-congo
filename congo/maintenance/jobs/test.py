@@ -5,7 +5,7 @@ from decimal import Decimal
 class Job(BaseJob):
     def __init__(self):
         super(Job, self).__init__()
-        self.description = "Test job"
+        self.description = "Just exemplary job"
 
     def _run(self, user, *args, **kwargs):
         result = {
@@ -27,6 +27,6 @@ class Job(BaseJob):
         print "############################"
         print ""
 
-#        print 1 / 0
+        print 1 / 0
 
         return result
